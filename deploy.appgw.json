@@ -105,11 +105,7 @@
                             "pickHostNameFromBackendAddress": false,
                             "affinityCookieName": "ApplicationGatewayAffinity",
                             "requestTimeout": 20,
-                            "authenticationCertificates": [
-                                {
-                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/authenticationCertificates/ttpsc_authenticationCertificates_bead2f22-a73d-463d-9a68-5e800cd')]"
-                                }
-                            ]
+                            "authenticationCertificates": []
                         },
                         "type": "Microsoft.Network/applicationGateways/backendHttpSettingsCollection"
                     }
@@ -128,8 +124,7 @@
                                 "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/sslCertificates/ttpsc.cloud')]"
                             }        
                         },
-                        "type": "Microsoft.Network/applicationGateways/httpListeners",
-                        "hostName": "qa-seg-automotive.ttpsc.cloud"
+                        "type": "Microsoft.Network/applicationGateways/httpListeners"
                     },
                     {
                         "name": "http_listener",
@@ -141,7 +136,6 @@
                                 "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/frontendPorts/port_80')]"
                             },
                             "protocol": "Http",
-                            "hostName": "qa-seg-automotive.ttpsc.cloud",
                             "hostNames": [],
                             "requireServerNameIndication": false
                         }
