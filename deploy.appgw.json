@@ -8,6 +8,9 @@
         "vnetName": {
             "type": "string"
         },
+        "subnetName": {
+            "type": "string"
+        },
         "vmParam": {
             "type": "object"
         },
@@ -33,7 +36,7 @@
                         "name": "appGatewayIpConfig",
                         "properties": {
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetParam').subnetConfig[1].name)]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]"
                             }
                         },
                         "type": "Microsoft.Network/applicationGateways/gatewayIPConfigurations"
@@ -49,7 +52,7 @@
                             "privateIPAddress": "10.3.1.8",
                             "privateIPAllocationMethod": "Static",
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetParam').subnetConfig[1].name)]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]"
                             }
                         }
                     }
