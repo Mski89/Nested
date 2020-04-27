@@ -5,9 +5,6 @@
         "vmParam": {
             "type": "object"
         },
-        "JumpHost":{
-            "type":"object"
-        },
         "storageAccountName": {
             "type": "string"
         },
@@ -53,7 +50,7 @@
                         "managedDisk": {
                             "storageAccountType": "StandardSSD_LRS"
                         },
-                        "diskSizeGB": 127
+                        "diskSizeGB": 128
                     }
                 },
                 "networkProfile": {

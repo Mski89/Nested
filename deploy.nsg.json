@@ -17,16 +17,16 @@
             "properties": {
                 "securityRules": [
                     {
-                        "name": "SSH",
+                        "name": "RDP-Jumphost",
                         "properties": {
                             "provisioningState": "Succeeded",
                             "protocol": "TCP",
                             "sourcePortRange": "*",
-                            "destinationPortRanges": ["22"],
-                            "sourceAddressPrefix": "217.153.157.250",
+                            "destinationPortRanges": ["3389"],
+                            "sourceAddressPrefix": "10.0.0.4",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 300,
+                            "priority": 101,
                             "direction": "Inbound"
                         }
                     }

@@ -1,0 +1,236 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "applicationGatewayName": {
+            "type": "string"
+        },
+        "vnetName": {
+            "type": "string"
+        },
+        "vmParam": {
+            "type": "object"
+        },
+        "subnetParam": {
+                "type": "object"
+            }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/applicationGateways",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('applicationGatewayName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "sku": {
+                    "name": "WAF_Medium",
+                    "tier": "WAF",
+                    "capacity": 1
+                },
+                "gatewayIPConfigurations": [
+                    {
+                        "name": "appGatewayIpConfig",
+                        "properties": {
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetParam').subnetConfig[2].name)]"
+                            }
+                        },
+                        "type": "Microsoft.Network/applicationGateways/gatewayIPConfigurations"
+                    }
+                ],
+                "sslCertificates": [
+                    {
+                        "name": "ttpsc.cloud",
+                        "properties": {}
+                    }
+                ],
+                "authenticationCertificates": [
+                    {
+                        "name": "Https_listener_authenticationCertificates_e07f6c3b-3e08-402d-94e",
+                        "properties": {
+                            "data": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tDQpNSUlEcnpDQ0FwZWdBd0lCQWdJUUNEdmdWcEJDUnJHaGRXckpXWkhIU2pBTkJna3Foa2lHOXcwQkFRVUZBREJoDQpNUXN3Q1FZRFZRUUdFd0pWVXpFVk1CTUdBMVVFQ2hNTVJHbG5hVU5sY25RZ1NXNWpNUmt3RndZRFZRUUxFeEIzDQpkM2N1WkdsbmFXTmxjblF1WTI5dE1TQXdIZ1lEVlFRREV4ZEVhV2RwUTJWeWRDQkhiRzlpWVd3Z1VtOXZkQ0JEDQpRVEFlRncwd05qRXhNVEF3TURBd01EQmFGdzB6TVRFeE1UQXdNREF3TURCYU1HRXhDekFKQmdOVkJBWVRBbFZUDQpNUlV3RXdZRFZRUUtFd3hFYVdkcFEyVnlkQ0JKYm1NeEdUQVhCZ05WQkFzVEVIZDNkeTVrYVdkcFkyVnlkQzVqDQpiMjB4SURBZUJnTlZCQU1URjBScFoybERaWEowSUVkc2IySmhiQ0JTYjI5MElFTkJNSUlCSWpBTkJna3Foa2lHDQo5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBNGp2aEVYTGVxS1RUbzFlcVVLS1BDM2VReWFLbDdoTE9sbHNCDQpDU0RNQVpPblRqQzNVL2REeEdrQVY1M2lqU0xkaHdaQUFJRUp6czRiZzcvZnpUdHhSdUxXWnNjRnMzWW5Gbzk3DQpuaDZWZmU2M1NLTUkydGF2ZWd3NUJtVi9TbDBmdkJmNHE3N3VLTmQwZjNwNG1WbUZhRzVjSXpKTHYwN0E2RnB0DQo0M0MvZHhDLy9BSDJoZG1vUkJCWU1xbDFHTlhSb3I1SDRpZHE5Sm96K0VrSVlJdlVYN1E2aEwraHFrcE1mVDdQDQpUMTlzZGw2Z1N6ZVJudHdpNW0zT0ZCcU9hc3YremJNVVpCZkhXeW1lTXIveTd2clRDMExVcTdkQk10b00xTy80DQpnZFc3alZnL3RSdm9TU2lpY05veEJOMzNzaGJ5VEFwT0I2anRTajFldFgramtNT3ZKd0lEQVFBQm8yTXdZVEFPDQpCZ05WSFE4QkFmOEVCQU1DQVlZd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVUE5NVFOVmJSDQpUTHRtOEtQaUd4dkRsN0k5MFZVd0h3WURWUjBqQkJnd0ZvQVVBOTVRTlZiUlRMdG04S1BpR3h2RGw3STkwVlV3DQpEUVlKS29aSWh2Y05BUUVGQlFBRGdnRUJBTXVjTjZwSUV4SUsrdDFFbkU5U3NQVGZyZ1QxZVhrSW95UVkvRXNyDQpoTUF0dWRYSC92VEJIMWpMdUcyY2VuVG5tQ21yRWJYamNLQ2h6VXlJbVpPTWtYRGlxdzhjdnBPcC8yUFY1QWRnDQowNk8vblZzSjhkV080MVAwam1QNlA2ZmJ0R2JmWW1iVzBXNUJqZkl0dGVwM1NwK2RXT0lyV2NCQUkrMHRLSUpGDQpQbmxVa2lhWTRJQklxRGZ2OE5aNVlCYmVyT2dPelc2c1JCYzRMMG5hNFVVK0tyazJVODg2VUFiM0x1akVWMGxzDQpZU0VZMVFTdGVEd3NPb0JycCt1dkZSVHAySW5CdVRoczRwRnNpdjlrdVhjbFZ6REFHeVNqNGR6cDMwZDh0YlFrDQpDQVV3N0MyOUM3OUZ2MUM1cWZQcm1BRVNyY2lJeHBnMFg0MEtQTWJwMVpXVmJkND0NCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0="
+                        }
+                    },
+                    {
+                        "name": "ttpsc_authenticationCertificates_bead2f22-a73d-463d-9a68-5e800cd",
+                        "properties": {
+                            "data": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tDQpNSUlHRlRDQ0JQMmdBd0lCQWdJUUJPajNwRmpmczg2KzZrTFp3VWRUcERBTkJna3Foa2lHOXcwQkFRc0ZBREJlDQpNUXN3Q1FZRFZRUUdFd0pWVXpFVk1CTUdBMVVFQ2hNTVJHbG5hVU5sY25RZ1NXNWpNUmt3RndZRFZRUUxFeEIzDQpkM2N1WkdsbmFXTmxjblF1WTI5dE1SMHdHd1lEVlFRREV4UkhaVzlVY25WemRDQlNVMEVnUTBFZ01qQXhPREFlDQpGdzB5TURBek1UWXdNREF3TURCYUZ3MHlNVEF6TVRZeE1qQXdNREJhTUhneEN6QUpCZ05WQkFZVEFsQk1NUkF3DQpEZ1lEVlFRSERBZkZnY096Wk1XNk1TOHdMUVlEVlFRS0V5WlVjbUZ1YzJsMGFXOXVJRlJsWTJodWIyeHZaMmxsDQpjeUJRVTBNZ1UzQXVJSG9nYnk1dkxqRU9NQXdHQTFVRUN4TUZRMnh2ZFdReEZqQVVCZ05WQkFNTURTb3VkSFJ3DQpjMk11WTJ4dmRXUXdnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dnRUtBb0lCQVFETFlidXRabVRIDQp2MVI2RmVoakttRjdXVHYzMjBnNDY0djNwODMyak9Ta2tXYk5wUENHQ0cxTys2cnhhV21nc04raUpmVTRmVm01DQpoUkR2d0F2YzNMS0YrT3pjNFhQRTZMaStTQXR5ekEvaXJITWF3SDN3bUNuLy9HUFFzZUVsV3BST1g5NzE2OHg3DQpMZTBZMzRxQkRHOENqbEZ3K2VibWZ5QUVRVVNzMDkzdlNvaUFFMEM1Skg3V2FQODlIVkwybytzTkhPd2tpMy84DQpBYzVZMzFQWlVBdTMrZkZpWDY0QzlVQUUrWkUrOEpzU3lMb3R6YzRvcGVsSkJic3hWWHRIYmNhYkErZGFGdUs4DQo5UWdLSUZROXljdytrcDRNa0p3RmYzZnVvQUh2K0ZrSVF0eG9HeG5yYzRiZVU2THNDWHJzQ3g2TUtCMjlOeURHDQozNGtscjJ5SnlVZlpBZ01CQUFHamdnS3pNSUlDcnpBZkJnTlZIU01FR0RBV2dCU1FXUCt3bkhXb1VWUjNzZTN5DQpvME1XT0o1c3hUQWRCZ05WSFE0RUZnUVVwNDNNY2ZJNzFMWHRGQUtGVjJ2RkZGRXhSN3N3SlFZRFZSMFJCQjR3DQpISUlOS2k1MGRIQnpZeTVqYkc5MVpJSUxkSFJ3YzJNdVkyeHZkV1F3RGdZRFZSMFBBUUgvQkFRREFnV2dNQjBHDQpBMVVkSlFRV01CUUdDQ3NHQVFVRkJ3TUJCZ2dyQmdFRkJRY0RBakErQmdOVkhSOEVOekExTURPZ01hQXZoaTFvDQpkSFJ3T2k4dlkyUndMbWRsYjNSeWRYTjBMbU52YlM5SFpXOVVjblZ6ZEZKVFFVTkJNakF4T0M1amNtd3dUQVlEDQpWUjBnQkVVd1F6QTNCZ2xnaGtnQmh2MXNBUUV3S2pBb0JnZ3JCZ0VGQlFjQ0FSWWNhSFIwY0hNNkx5OTNkM2N1DQpaR2xuYVdObGNuUXVZMjl0TDBOUVV6QUlCZ1puZ1F3QkFnSXdkUVlJS3dZQkJRVUhBUUVFYVRCbk1DWUdDQ3NHDQpBUVVGQnpBQmhocG9kSFJ3T2k4dmMzUmhkSFZ6TG1kbGIzUnlkWE4wTG1OdmJUQTlCZ2dyQmdFRkJRY3dBb1l4DQphSFIwY0RvdkwyTmhZMlZ5ZEhNdVoyVnZkSEoxYzNRdVkyOXRMMGRsYjFSeWRYTjBVbE5CUTBFeU1ERTRMbU55DQpkREFKQmdOVkhSTUVBakFBTUlJQkJRWUtLd1lCQkFIV2VRSUVBZ1NCOWdTQjh3RHhBSGNBOWx5VUw5RjNNQ0lVDQpWQmdJTUpSV2p1Tk5FeGt6djk4TUx5QUx6RTd4Wk9NQUFBRnc0dlNLYlFBQUJBTUFTREJHQWlFQXFlN05IS24rDQp6dnBDNHc1NlR1U2s3VWVjcGVSdEIydmlod0ZzbitiOUNtOENJUUNDRlBrUmxJREZCVzF5akwwYVJpZVgveXg0DQo5dTcxUGlZL0xTalVpdFJia2dCMkFGemNRNUwrNXF0RlJMRmVtdFJXNWhBMys5WDZSOXloYzVTeVh1YjJ4dzdLDQpBQUFCY09MMGlzVUFBQVFEQUVjd1JRSWdmdCtIemdWNFBINnkva291NlFjVUFWQytHL2hOZHZTc3Y1UEpCVnM3DQpCbDBDSVFERUJpTTdRaGJrbTYrQ3ZzMFlqU05HVUFKL0VESjByYUxsVE81eXFKNTlvREFOQmdrcWhraUc5dzBCDQpBUXNGQUFPQ0FRRUFMRFk3OUtDSmRQRGxtdHBvNUpUK0dST3pZS3Z0TVZpVlhuRFBGeWJteWIwL0poNkZOOUFJDQpZaHdVQ3JVeVFaWHphNmdFMnQzYXQ3M3UrVHZvZnRyMGxXMmY4TzVnOHZhT3UydnVRVXR0MkFBWGpnQ0hOTlEyDQo3dWVaUDZpeVhOZ21URkd2WGIxTEtOUlc3NEVQLzZ4Um5jMFJINWZxeURRUnJ4bEhDbUc2R0c5L1pxWllhU3MxDQpvMDBUVmRaRWtIZjAwajlsU0M4RFRMNGZ4cHVhWjZVMEt2c3pvcDIxZWJXTlRaYmRuaXhGWk5aVHFEUTlTNWphDQpaVTlwSit5RlpEaEIrVkFVVS9ISWNTdEZoOGhCQXREczJWWWw3K1UvTVJVWTBXYlFHclFNZS9NV293V1o0YjlLDQp6akE3ejhPckIwVm9xWms4MGlCVjZlK3hoVDBqTDYvdkZRPT0NCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0NCg=="
+                        }
+                    }
+                ], 
+                "frontendIPConfigurations": [
+                    {
+                        "name": "appGatewayFrontendIP",
+                        "type": "Microsoft.Network/applicationGateways/frontendIPConfigurations",
+                        "properties": {
+                            "privateIPAddress": "10.3.1.8",
+                            "privateIPAllocationMethod": "Static",
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('subnetParam').subnetConfig[1].name))]"
+                            }
+                        }
+                    }
+                ],
+                "frontendPorts": [
+                    {
+                        "name": "appGatewayFrontendPortHTTPS",
+                        "properties": {
+                            "port": 443
+                        },
+                        "type": "Microsoft.Network/applicationGateways/frontendPorts"
+                    },
+                    {
+                        "name": "appGatewayFrontendPortHTTP",
+                        "properties": {
+                            "port": 80
+                        },
+                        "type": "Microsoft.Network/applicationGateways/frontendPorts"
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "type": "Microsoft.Network/applicationGateways/backendAddressPools",
+                        "name": "appGatewayBackendPool",
+                        "properties": {
+                            "backendAddresses": [
+                                {
+                                    "ipAddress": "[parameters('vmParam').vmConfig[0].privateIP]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "backendHttpSettingsCollection": [
+                    {
+                        "type": "Microsoft.Network/applicationGateways/backendHttpSettingsCollection",
+                        "name": "Http_setting",
+                        "properties": {
+                            "port": 80,
+                            "protocol": "Http",
+                            "cookieBasedAffinity": "Disabled",
+                            "pickHostNameFromBackendAddress": false,
+                            "affinityCookieName": "ApplicationGatewayAffinity",
+                            "requestTimeout": 20
+                        }
+                    },
+                    {
+                        "name": "ttpsc-https",
+                        "properties": {
+                            "port": 443,
+                            "protocol": "Https",
+                            "cookieBasedAffinity": "Disabled",
+                            "pickHostNameFromBackendAddress": false,
+                            "affinityCookieName": "ApplicationGatewayAffinity",
+                            "requestTimeout": 20,
+                            "authenticationCertificates": [
+                                {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/authenticationCertificates/ttpsc_authenticationCertificates_bead2f22-a73d-463d-9a68-5e800cd')]"
+                                }
+                            ]
+                        },
+                        "type": "Microsoft.Network/applicationGateways/backendHttpSettingsCollection"
+                    }
+                ],
+                "httpListeners": [
+                    {
+                        "name": "appGatewayHTTPSListener",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/frontendIPConfigurations/appGwPrivateFrontendIp')]"
+                            },
+                            "frontendPort": {
+                            "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/frontendPorts/port_443')]"                            },
+                            "protocol": "Https",
+                            "sslCertificate": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/sslCertificates/ttpsc.cloud')]"
+                            }        
+                        },
+                        "type": "Microsoft.Network/applicationGateways/httpListeners",
+                        "hostName": "qa-seg-automotive.ttpsc.cloud"
+                    },
+                    {
+                        "name": "http_listener",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/frontendIPConfigurations/appGwPrivateFrontendIp')]"
+                            },
+                            "frontendPort": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/frontendPorts/port_80')]"
+                            },
+                            "protocol": "Http",
+                            "hostName": "qa-seg-automotive.ttpsc.cloud",
+                            "hostNames": [],
+                            "requireServerNameIndication": false
+                        }
+                    }
+                ],
+                "requestRoutingRules": [
+                    {
+                        "name": "https-to-https",
+                        "properties": {
+                            "ruleType": "Basic",
+                            "httpListener": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/httpListeners/appGatewayHTTPSListener')]"
+                            },
+                            "backendAddressPool": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/backendAddressPools/appGatewayBackendPool')]"
+                            },
+                            "backendHttpSettings": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/backendHttpSettingsCollection/appGatewayBackendHTTPSSettings')]"
+                            }
+                        },
+                        "type": "Microsoft.Network/applicationGateways/requestRoutingRules"
+                    },
+                    {
+                        "name": "http-to-https",
+                        "properties": {
+                            "ruleType": "Basic",
+                            "httpListener": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/httpListeners/appGatewayHTTPListener')]"
+                            },
+                            "redirectConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/redirectConfigurations/http-to-https')]"
+                            }
+                        },
+                        "type": "Microsoft.Network/applicationGateways/requestRoutingRules"
+                    }
+                ],
+                "probes": [],
+                "rewriteRuleSets": [],
+                "redirectConfigurations": [
+                    {
+                        "name": "http_to_https",
+                        "properties": {
+                            "redirectType": "Permanent",
+                            "targetListener": {
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/httpListeners/Https_listener')]"
+                            },
+                            "includePath": true,
+                            "includeQueryString": true,
+                            "requestRoutingRules": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGatewayName')), '/requestRoutingRules/http_to_https')]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "webApplicationFirewallConfiguration": {
+                    "enabled": true,
+                    "firewallMode": "Detection",
+                    "ruleSetType": "OWASP",
+                    "ruleSetVersion": "3.0",
+                    "disabledRuleGroups": [],
+                    "exclusions": [],
+                    "requestBodyCheck": true,
+                    "maxRequestBodySizeInKb": 128,
+                    "fileUploadLimitInMb": 100
+                },
+                "enableHttp2": false,
+                "customErrorConfigurations": []
+            },
+            "dependsOn": []
+        }
+    ]
+}
