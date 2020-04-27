@@ -33,7 +33,7 @@
                         "name": "appGatewayIpConfig",
                         "properties": {
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetParam').subnetConfig[2].name)]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetParam').subnetConfig[1].name)]"
                             }
                         },
                         "type": "Microsoft.Network/applicationGateways/gatewayIPConfigurations"
