@@ -1,0 +1,77 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "mssqlserverName": {
+        "type": "string"
+      },
+      "mssqladminLogin": {
+        "type": "string"
+      },
+      "mssqladminLoginPassword": {
+        "type": "securestring"
+      },
+      "vnetName": {
+        "type": "string"
+    },
+    "subnetParam": {
+            "type": "object"
+         }
+    },
+    "variables": {
+    },
+    "resources": [
+      {
+        "name": "[parameters('mssqlserverName')]",
+        "type": "Microsoft.Sql/servers",
+        "location": "West Europe",
+        "apiVersion": "2015-05-01-preview",
+        "dependsOn": [],
+        "properties": {
+          "administratorLogin": "[parameters('mssqladminLogin')]",
+          "administratorLoginPassword": "[parameters('mssqladminLoginPassword')]",
+          "version": "12.0"
+        },
+        "resources": [
+          {
+            "name": "[concat(parameters('mssqlserverName'),'/AllowAllWindowsAzureIps')]",
+            "type": "Microsoft.Sql/servers/firewallRules",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+              "[resourceId('Microsoft.Sql/servers', parameters('mssqlserverName'))]"
+            ],
+            "properties": {
+              "startIpAddress": "0.0.0.0",
+              "endIpAddress": "0.0.0.0"
+            }
+          },
+        {
+            "type": "Microsoft.Sql/servers/firewallRules",
+            "apiVersion": "2015-05-01-preview",
+            "name": "[concat(parameters('mssqlserverName'), '/TTPSC_VPN')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('mssqlserverName'))]"
+            ],
+            "properties": {
+                "startIpAddress": "217.149.255.160",
+                "endIpAddress": "217.149.255.160"
+            }
+        },
+        {
+          "name": "[concat(parameters('mssqlserverName'), '/subnet-qa2-integrity')]",
+          "type": "Microsoft.Sql/servers/virtualNetworkRules",
+          "apiVersion": "2015-05-01-preview",
+          "dependsOn": [
+            "[resourceId('Microsoft.Sql/servers', parameters('mssqlserverName'))]"
+        ],
+          "properties": {
+            "virtualNetworkSubnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'),parameters('subnetParam').subnetConfig[0].name)]"
+          }
+        }
+        ]
+      }
+    ],
+    "outputs": {}
+  
+  }
