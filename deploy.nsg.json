@@ -32,31 +32,6 @@
                     }
                 ]
             }
-        },
-        {
-            "type": "Microsoft.Network/networkSecurityGroups",
-            "apiVersion": "2018-12-01",
-            "name": "[parameters('nsgParam').nsgConfig[1].name]",
-            
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "securityRules": [
-                    {
-                        "name": "AppGWports",
-                        "properties": {
-                            "description": "AppGW ports",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "65200-65535",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": 120,
-                            "direction": "Inbound"
-                        }
-                    }
-                ]
-            }
         }
     ]
 }
