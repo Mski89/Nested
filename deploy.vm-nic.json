@@ -32,7 +32,7 @@
                         }
                     }
                 ],
-                "enableAcceleratedNetworking": true,
+                "enableAcceleratedNetworking": false,
                 "enableIPForwarding": false,
                 "primary": true,
                 "networkSecurityGroup": {
