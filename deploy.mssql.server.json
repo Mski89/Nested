@@ -59,7 +59,7 @@
             }
         },
         {
-          "name": "[concat(parameters('mssqlserverName'), '/seg-wnc-dev2-subnet')]",
+          "name": "[concat(parameters('mssqlserverName'), '/parameters('subnetParam').subnetConfig[copyIndex('subnets')].name')]",
           "type": "Microsoft.Sql/servers/virtualNetworkRules",
           "apiVersion": "2015-05-01-preview",
           "dependsOn": [
