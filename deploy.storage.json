@@ -4,6 +4,9 @@
     "parameters": {
         "storageAccountName": {
             "type": "string"
+        },
+        "storageAccountName2": {
+            "type": "string"
         }
     },
     "variables": {},
