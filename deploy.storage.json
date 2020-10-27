@@ -22,7 +22,7 @@
             "copy": {
                 "name": "storageCopy",
                 "count": "[length(parameters('storageAccountName').storageConfig)]"
-            },
+            }
         }
     ],
     "outputs": {}
