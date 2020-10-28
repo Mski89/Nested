@@ -4,6 +4,9 @@
     "parameters": {
         "storageAccountName": {
             "type": "string"
+        },
+        "storageAccountName2": {
+            "type": "string"
         }
     },
     "variables": {},
@@ -11,18 +14,26 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-04-01",
-            "name": "[parameters('storageAccountName').storageConfig[copyIndex()].name]",
+            "name": "[parameters('storageAccountName')]",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard_LRS",
                 "tier": "Standard"
             },
             "kind": "Storage",
-            "properties": {},
-            "copy": {
-                "name": "storageCopy",
-                "count": "[length(parameters('storageAccountName').storageConfig)]"
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-04-01",
+            "name": "[parameters('storageAccountName2')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
             },
+            "kind": "StorageV2",
+            "properties": {}
         }
     ],
     "outputs": {}
