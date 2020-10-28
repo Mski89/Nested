@@ -17,17 +17,114 @@
             "properties": {
                 "securityRules": [
                     {
-                        "name": "RDP-Jumphost",
+                        "name": "3389",
                         "properties": {
-                            "provisioningState": "Succeeded",
-                            "protocol": "TCP",
+                            "description": "Rdp access from Jumphost",
+                            "protocol": "*",
                             "sourcePortRange": "*",
-                            "destinationPortRanges": ["3389"],
+                            "destinationPortRange": "3389",
                             "sourceAddressPrefix": "10.0.0.4",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [
+                            ]
+                        }
+                    },
+                    {
+                        "name": "AllowAzureLB",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
+                            "priority": 4095,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Wnc-Solr-Port",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "8085",
+                            "sourceAddressPrefix": ["10.4.0.4","10.4.0.7"],
+                            "destinationAddressPrefix": "10.4.0.5",
+                            "access": "Allow",
                             "priority": 101,
-                            "direction": "Inbound"
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Wnc-Ports",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": ["10.4.0.4","10.4.0.7"],
+                            "access": "Allow",
+                            "priority": 102,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "443",
+                                "5600"
+                            ],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Wnc-Cad-Ports",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "10.4.0.4",
+                            "access": "Allow",
+                            "priority": 103,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "21",
+                                "50000-50100",
+                                "601",
+                                "5600"
+                            ],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [
+                                "10.4.0.9",
+                                "10.4.0.7"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "Ping-QA-Allow",
+                        "properties": {
+                            "protocol": "ICMP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "10.4.0.0/24",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
                         }
                     }
                 ]
