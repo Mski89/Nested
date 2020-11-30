@@ -11,22 +11,18 @@
         {
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2018-02-01",
-            "name": "[parameters('servicePlan').Config[copyIndex()].appname]",
+            "name": "[parameters('servicePlan').appname]",
             "location": "[resourceGroup().location]",
             "sku": {
-                "name": "[parameters('servicePlan').Config[copyIndex()].SkuName]",
-                "tier": "[parameters('servicePlan').Config[copyIndex()].tier]",
-                "size": "[parameters('servicePlan').Config[copyIndex()].size]",
-                "family": "[parameters('servicePlan').Config[copyIndex()].family]",
-                "capacity": "[parameters('servicePlan').Config[copyIndex()].capacity]"
+                "name": "[parameters('servicePlan').SkuName]",
+                "tier": "[parameters('servicePlan').tier]",
+                "size": "[parameters('servicePlan').size]",
+                "family": "[parameters('servicePlan').family]",
+                "capacity": "[parameters('servicePlan').capacity]"
             },
-            "kind": "[parameters('servicePlan').Config[copyIndex()].kind]",
+            "kind": "[parameters('servicePlan').kind]",
             "properties": {
-            },
-            "copy": {
-                "name": "PlanCopy",
-                "count": "[length(parameters('servicePlan').Config)]"
-            }            
+            }         
         }
     ]
 }
