@@ -24,7 +24,7 @@
             "dependsOn": [
             ],
             "properties": {
-                "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', (parameters('functionAppName').Config[copyIndex()].hostingPlanName))]",
                 "siteConfig": {
                     "appSettings": [
                         {
