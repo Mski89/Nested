@@ -11,7 +11,7 @@
         {
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2018-02-01",
-            "name": "[parameters('servicePlan').Config[copyIndex().appname]]",
+            "name": "[parameters('servicePlan').Config[copyIndex()].appname]",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "[parameters('servicePlan').Config[copyIndex()].SkuName]",
