@@ -9,7 +9,7 @@
                 "type": "string"
             },
             "hostingPlanName": {
-                "type" "string"
+                "type":"string"
             }
     },
     "variables": {},
@@ -24,7 +24,7 @@
             "dependsOn": [
             ],
             "properties": {
-                "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', (parameters('functionAppName').Config[copyIndex()].hostingPlanName))]",
+                "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
                 "siteConfig": {
                     "appSettings": [
                         {
